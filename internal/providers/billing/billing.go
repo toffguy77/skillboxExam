@@ -11,6 +11,8 @@ import (
 
 const BillingDataFile = "billing.data"
 
+//FIXME: fix Billing source
+
 type BillingProvider struct {
 	Name string
 }

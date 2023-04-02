@@ -11,6 +11,8 @@ import (
 
 const EmailDataFile = "email.data"
 
+//FIXME: fix Email source
+
 type EmailProvider struct {
 	Name string
 }

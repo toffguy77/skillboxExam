@@ -10,6 +10,8 @@ import (
 
 const SMSDataFile = "sms.data"
 
+//FIXME: fix SMS source
+
 type SMSProvider struct {
 	Name string
 }

@@ -6,21 +6,14 @@ import (
 	"log"
 )
 
-func GetBillingData() models.BillingData {
+func GetBillingData(c chan models.BillingData) {
 	billingProvider := billing.BillingProvider{
 		Name: "Billing Status",
 	}
 	billingRes, err := billingProvider.GetStatus()
 	if err != nil {
 		log.Printf("can't get Billing status: %v", err)
-		return models.BillingData{
-			CreateCustomer: false,
-			Purchase:       false,
-			Payout:         false,
-			Recurring:      false,
-			FraudControl:   false,
-			CheckoutPage:   false,
-		}
+		c <- models.BillingData{}
 	}
-	return billingRes
+	c <- billingRes
 }

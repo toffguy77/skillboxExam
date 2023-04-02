@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func GetVoicecallData(countriesList map[string]models.Country) []models.VoiceCallData {
+func GetVoiceCallData(c chan []models.VoiceCallData, countriesList map[string]models.Country) {
 
 	voiceProvider := voicecall.VoiceProvider{
 		Name: "Voice Calls",
@@ -14,7 +14,7 @@ func GetVoicecallData(countriesList map[string]models.Country) []models.VoiceCal
 	voiceRes, err := voiceProvider.GetStatus(countriesList)
 	if err != nil {
 		log.Printf("can't get VoiceCalls status: %v", err)
-		return nil
+		c <- nil
 	}
-	return voiceRes
+	c <- voiceRes
 }

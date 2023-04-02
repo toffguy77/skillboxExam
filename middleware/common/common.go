@@ -10,13 +10,32 @@ func GetResultData() models.ResultSetT {
 	var result models.ResultSetT
 
 	countriesList := countries.GetCountries()
-	result.SMS = prepare.GetSmsData(countriesList)
-	result.MMS = prepare.GetMmsData(countriesList)
-	result.VoiceCall = prepare.GetVoicecallData(countriesList)
-	result.Email = prepare.GetEmailData(countriesList)
-	result.Billing = prepare.GetBillingData()
-	result.Support = prepare.GetSupportData()
-	result.Incidents = prepare.GetIncidentsData()
+	chanSMS := make(chan [][]models.SMSData)
+	chanMMS := make(chan [][]models.MMSData)
+	chanVoiceCall := make(chan []models.VoiceCallData)
+	chanEmail := make(chan map[string][][]models.EmailData)
+	chanBilling := make(chan models.BillingData)
+	chanSupport := make(chan []int)
+	chanIncidents := make(chan []models.IncidentData)
+
+	for {
+		go prepare.GetSmsData(chanSMS, countriesList)
+		go prepare.GetMmsData(chanMMS, countriesList)
+		go prepare.GetVoiceCallData(chanVoiceCall, countriesList)
+		go prepare.GetEmailData(chanEmail, countriesList)
+		go prepare.GetBillingData(chanBilling)
+		go prepare.GetSupportData(chanSupport)
+		go prepare.GetIncidentsData(chanIncidents)
+		break
+	}
+
+	result.SMS = <-chanSMS
+	result.MMS = <-chanMMS
+	result.VoiceCall = <-chanVoiceCall
+	result.Email = <-chanEmail
+	result.Billing = <-chanBilling
+	result.Support = <-chanSupport
+	result.Incidents = <-chanIncidents
 
 	return result
 }

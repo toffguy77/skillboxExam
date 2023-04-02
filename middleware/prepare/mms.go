@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func GetMmsData(countriesList map[string]models.Country) [][]models.MMSData {
+func GetMmsData(c chan [][]models.MMSData, countriesList map[string]models.Country) {
 
 	mmsProvider := mms.MMSProvider{
 		Name: "MMS",
@@ -14,7 +14,7 @@ func GetMmsData(countriesList map[string]models.Country) [][]models.MMSData {
 	mmsRes, err := mmsProvider.GetStatus(countriesList)
 	if err != nil {
 		log.Printf("can't get MMS status: %v", err)
-		return nil
+		c <- nil
 	}
 
 	mmsRes = changeCountryMMS(mmsRes, countriesList)
@@ -22,7 +22,7 @@ func GetMmsData(countriesList map[string]models.Country) [][]models.MMSData {
 	var res [][]models.MMSData
 	res = append(res, sortByProvider(mmsRes), sortByCountry(mmsRes))
 
-	return res
+	c <- res
 }
 
 func changeCountryMMS(mmsRes []models.MMSData, countriesList map[string]models.Country) []models.MMSData {

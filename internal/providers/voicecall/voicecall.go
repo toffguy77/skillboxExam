@@ -9,14 +9,16 @@ import (
 	"strings"
 )
 
-const VoiceDataFile = "voice.data"
+const VoiceCallDataFile = "voice.data"
+
+//FIXME: fix VoiceCall source
 
 type VoiceProvider struct {
 	Name string
 }
 
 func (p VoiceProvider) GetStatus(countries map[string]models.Country) ([]models.VoiceCallData, error) {
-	data, err := parseVoiceCallData(VoiceDataFile)
+	data, err := parseVoiceCallData(VoiceCallDataFile)
 	if err != nil {
 		log.Printf("can't parse voice data: %v\n", err)
 		return nil, err

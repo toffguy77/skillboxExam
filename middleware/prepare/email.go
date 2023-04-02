@@ -6,19 +6,19 @@ import (
 	"log"
 )
 
-func GetEmailData(countriesList map[string]models.Country) map[string][][]models.EmailData {
+func GetEmailData(c chan map[string][][]models.EmailData, countriesList map[string]models.Country) {
 	emailProvider := email.EmailProvider{
 		Name: "E-mails",
 	}
 	emailRes, err := emailProvider.GetStatus(countriesList)
 	if err != nil {
 		log.Printf("can't get Email status: %v", err)
-		return nil
+		c <- nil
 	}
 	emailResByCountry := resByCountry(emailRes)
 	emailSortedByDeliveryTime := sortedByDeliveryTime(emailResByCountry)
 
-	return emailSortedByDeliveryTime
+	c <- emailSortedByDeliveryTime
 }
 
 func sortedByDeliveryTime(emailResByCountry map[string][]models.EmailData) map[string][][]models.EmailData {

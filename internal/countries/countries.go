@@ -30,7 +30,7 @@ func createCountryMap(file string) (map[string]models.Country, error) {
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		country := parseString(scanner.Text())
-		if !isEmptryCountry(country) {
+		if !isEmptyCountry(country) {
 			data[country.Alpha2] = country
 		}
 	}
@@ -53,7 +53,7 @@ func parseString(line string) models.Country {
 	return country
 }
 
-func isEmptryCountry(country models.Country) bool {
+func isEmptyCountry(country models.Country) bool {
 	if country == (models.Country{}) {
 		return true
 	}

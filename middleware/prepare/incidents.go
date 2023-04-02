@@ -6,17 +6,17 @@ import (
 	"log"
 )
 
-func GetIncidentsData() []models.IncidentData {
+func GetIncidentsData(c chan []models.IncidentData) {
 	incidentProvider := incidents.IncidentProvider{
 		Name: "Incidents List",
 	}
 	incidentRes, err := incidentProvider.GetStatus()
 	if err != nil {
 		log.Printf("can't get the list of Incidents: %v", err)
-		return nil
+		c <- nil
 	}
 
-	return sorted(incidentRes)
+	c <- sorted(incidentRes)
 }
 
 func sorted(res []models.IncidentData) []models.IncidentData {

@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func GetSmsData(countriesList map[string]models.Country) [][]models.SMSData {
+func GetSmsData(c chan [][]models.SMSData, countriesList map[string]models.Country) {
 	smsProvider := sms.SMSProvider{
 		Name: "SMS",
 	}
@@ -14,7 +14,7 @@ func GetSmsData(countriesList map[string]models.Country) [][]models.SMSData {
 	smsRes, err := smsProvider.GetStatus(countriesList)
 	if err != nil {
 		log.Printf("can't get SMS status: %v", err)
-		return nil
+		c <- nil
 	}
 
 	smsRes = changeCountrySMS(smsRes, countriesList)
@@ -22,7 +22,7 @@ func GetSmsData(countriesList map[string]models.Country) [][]models.SMSData {
 	var res [][]models.SMSData
 	res = append(res, sortSmsByProvider(smsRes), sortSmsByCountry(smsRes))
 
-	return res
+	c <- res
 }
 
 func changeCountrySMS(smsRes []models.SMSData, countriesList map[string]models.Country) []models.SMSData {

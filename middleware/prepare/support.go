@@ -13,20 +13,20 @@ var (
 	SPECIALISTS      = 7
 )
 
-func GetSupportData() []int {
+func GetSupportData(c chan []int) {
 	supportProvider := support.SupportProvider{
 		Name: "Support Status",
 	}
 	supportRes, err := supportProvider.GetStatus()
 	if err != nil {
 		log.Printf("can't get Support services status: %v", err)
-		return nil
+		c <- nil
 	}
 
 	_, totalTickets := calcLoadByTopic(supportRes)
 	avgLoad := calcLoad(totalTickets)
 	queueTime := calcQueueTime(totalTickets)
-	return []int{avgLoad, queueTime}
+	c <- []int{avgLoad, queueTime}
 }
 
 func calcQueueTime(tickets int) int {

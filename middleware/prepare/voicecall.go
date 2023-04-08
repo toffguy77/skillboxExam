@@ -7,7 +7,7 @@ import (
 )
 
 func GetVoiceCallData(c chan []models.VoiceCallData, countriesList map[string]models.Country) {
-
+	defer close(c)
 	voiceProvider := voicecall.VoiceProvider{
 		Name: "Voice Calls",
 	}

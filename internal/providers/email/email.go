@@ -2,6 +2,7 @@ package email
 
 import (
 	"bufio"
+	"github.com/toffguy77/statusPage/internal/common"
 	"github.com/toffguy77/statusPage/internal/models"
 	"log"
 	"os"
@@ -23,20 +24,8 @@ func (p EmailProvider) GetStatus(countries map[string]models.Country) ([]models.
 		log.Printf("can't parse email data: %v\n", err)
 		return nil, err
 	}
-	result := validate(data, countries)
+	result := common.Validate(data, countries)
 	return result, nil
-}
-
-func validate(data []models.EmailData, country map[string]models.Country) []models.EmailData {
-	for iter, res := range data {
-		_, ok := country[res.Country]
-		if !ok {
-			log.Printf("email data is not valid: %v\n", res)
-			data[iter] = data[len(data)-1]
-			data = data[:len(data)-1]
-		}
-	}
-	return data
 }
 
 func parseEmailData(file string) ([]models.EmailData, error) {
@@ -51,27 +40,20 @@ func parseEmailData(file string) ([]models.EmailData, error) {
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		dataLine := parseString(scanner.Text())
-		if !isEmptyEmail(dataLine) {
+		if !common.IsEmptyData(dataLine) {
 			data = append(data, dataLine)
 		}
 	}
 	return data, nil
 }
 
-func isEmptyEmail(emailData models.EmailData) bool {
-	if emailData == (models.EmailData{}) {
-		return true
-	}
-	return false
-}
-
 func parseString(line string) models.EmailData {
 	parsedLine := strings.Split(line, ";")
-	if !isCorrectLine(parsedLine, 3) {
+	if !common.IsCorrectLine(parsedLine, 3) {
 		log.Printf("line is not valid: %s\n", line)
 		return models.EmailData{}
 	}
-	if !isTrustedemailProvider(parsedLine[1]) {
+	if !isTrustedEmailProvider(parsedLine[1]) {
 		log.Printf("untrusted provider, skip: %s\n", line)
 		return models.EmailData{}
 	}
@@ -89,19 +71,7 @@ func parseString(line string) models.EmailData {
 	return data
 }
 
-func isCorrectLine(line []string, l int) bool {
-	if len(line) != l {
-		return false
-	}
-	for _, val := range line {
-		if val == "" {
-			return false
-		}
-	}
-	return true
-}
-
-func isTrustedemailProvider(provider string) bool {
+func isTrustedEmailProvider(provider string) bool {
 	switch strings.ToLower(provider) {
 	case
 		"gmail", "yahoo", "hotmail", "msn", "orange", "comcast",

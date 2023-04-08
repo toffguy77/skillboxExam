@@ -1,5 +1,7 @@
 package models
 
+import "reflect"
+
 type Country struct {
 	Name       string
 	Alpha2     string
@@ -72,4 +74,43 @@ type ResultSetT struct {
 	Billing   BillingData              `json:"billing"`
 	Support   []int                    `json:"support"`
 	Incidents []IncidentData           `json:"incident"`
+}
+
+func (m MMSData) HasCountry(country map[string]Country) bool {
+	value := reflect.ValueOf(m)
+	hasCountryFiled := value.FieldByName("Country")
+	if !hasCountryFiled.IsValid() {
+		return false
+	}
+	_, ok := country[m.Country]
+	if ok {
+		return true
+	}
+	return false
+}
+
+func (m SMSData) HasCountry(country map[string]Country) bool {
+	value := reflect.ValueOf(m)
+	hasCountryFiled := value.FieldByName("Country")
+	if !hasCountryFiled.IsValid() {
+		return false
+	}
+	_, ok := country[m.Country]
+	if ok {
+		return true
+	}
+	return false
+}
+
+func (m EmailData) HasCountry(country map[string]Country) bool {
+	value := reflect.ValueOf(m)
+	hasCountryFiled := value.FieldByName("Country")
+	if !hasCountryFiled.IsValid() {
+		return false
+	}
+	_, ok := country[m.Country]
+	if ok {
+		return true
+	}
+	return false
 }

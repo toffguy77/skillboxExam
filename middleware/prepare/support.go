@@ -14,6 +14,7 @@ var (
 )
 
 func GetSupportData(c chan []int) {
+	defer close(c)
 	supportProvider := support.SupportProvider{
 		Name: "Support Status",
 	}

@@ -7,7 +7,7 @@ import (
 )
 
 func GetMmsData(c chan [][]models.MMSData, countriesList map[string]models.Country) {
-
+	defer close(c)
 	mmsProvider := mms.MMSProvider{
 		Name: "MMS",
 	}

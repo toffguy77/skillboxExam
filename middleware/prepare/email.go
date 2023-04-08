@@ -7,6 +7,7 @@ import (
 )
 
 func GetEmailData(c chan map[string][][]models.EmailData, countriesList map[string]models.Country) {
+	defer close(c)
 	emailProvider := email.EmailProvider{
 		Name: "E-mails",
 	}

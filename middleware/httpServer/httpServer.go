@@ -61,5 +61,9 @@ func handleConnection(w http.ResponseWriter, r *http.Request) {
 		log.Printf("error marchaling json answer: %v\n", err)
 		return
 	}
-	fmt.Fprint(w, string(resJson))
+
+	_, err = fmt.Fprint(w, string(resJson))
+	if err != nil {
+		log.Printf("error sending http response: %v", err)
+	}
 }

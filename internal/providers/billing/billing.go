@@ -80,14 +80,14 @@ func parseMask(mask string) models.BillingData {
 	payout := 4
 	recurring := 8
 	fraudControl := 16
-	vheckoutPage := 32
+	checkoutPage := 32
 	result := models.BillingData{
 		CreateCustomer: billingStatus&createCustomer == createCustomer,
 		Purchase:       billingStatus&purchase == purchase,
 		Payout:         billingStatus&payout == payout,
 		Recurring:      billingStatus&recurring == recurring,
 		FraudControl:   billingStatus&fraudControl == fraudControl,
-		CheckoutPage:   billingStatus&vheckoutPage == vheckoutPage,
+		CheckoutPage:   billingStatus&checkoutPage == checkoutPage,
 	}
 	return result
 }

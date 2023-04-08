@@ -7,6 +7,7 @@ import (
 )
 
 func GetIncidentsData(c chan []models.IncidentData) {
+	defer close(c)
 	incidentProvider := incidents.IncidentProvider{
 		Name: "Incidents List",
 	}

@@ -2,11 +2,11 @@ package mms
 
 import (
 	"encoding/json"
+	"github.com/toffguy77/statusPage/internal/common"
 	"github.com/toffguy77/statusPage/internal/models"
 	"io"
 	"log"
 	"net/http"
-	"strings"
 )
 
 type MMSProvider struct {
@@ -19,20 +19,8 @@ func (p MMSProvider) GetStatus(countries map[string]models.Country) ([]models.MM
 		log.Printf("can't parse mms data from httpServer: %v\n", err)
 		return nil, err
 	}
-	result := validate(data, countries)
+	result := common.Validate(data, countries)
 	return result, nil
-}
-
-func validate(data []models.MMSData, country map[string]models.Country) []models.MMSData {
-	for iter, res := range data {
-		_, ok := country[res.Country]
-		if !ok {
-			log.Printf("prepare data is not valid: %v\n", res)
-			data[iter] = data[len(data)-1]
-			data = data[:len(data)-1]
-		}
-	}
-	return data
 }
 
 func getMmsData(urlMmsServer string) ([]models.MMSData, error) {
@@ -62,20 +50,10 @@ func getMmsData(urlMmsServer string) ([]models.MMSData, error) {
 
 	var result []models.MMSData
 	for _, res := range data {
-		if isTrustedMmsProvider(res.Provider) {
+		if common.IsTrustedProvider(res.Provider) {
 			result = append(result, res)
 		}
 	}
 
 	return result, err
-}
-
-func isTrustedMmsProvider(provider string) bool {
-	switch strings.ToLower(provider) {
-	case
-		"topolo", "rond", "kildy":
-		return true
-	}
-	log.Printf("mms provider is not trusted: %s\n", provider)
-	return false
 }

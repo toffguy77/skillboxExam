@@ -7,6 +7,7 @@ import (
 )
 
 func GetBillingData(c chan models.BillingData) {
+	defer close(c)
 	billingProvider := billing.BillingProvider{
 		Name: "Billing Status",
 	}

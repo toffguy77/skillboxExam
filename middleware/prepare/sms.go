@@ -7,6 +7,7 @@ import (
 )
 
 func GetSmsData(c chan [][]models.SMSData, countriesList map[string]models.Country) {
+	defer close(c)
 	smsProvider := sms.SMSProvider{
 		Name: "SMS",
 	}

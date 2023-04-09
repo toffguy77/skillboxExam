@@ -33,13 +33,15 @@ func IsTrustedProvider(provider string) bool {
 
 func Validate[T ValidateData](data []T, country map[string]models.Country) []T {
 	for i := 0; i < len(data); i++ {
+		if i == 0 && !data[i].HasCountry(country) {
+			log.Printf("prepare data is not valid: %v\n", data[i])
+			data = data[i+1:]
+			i--
+		}
 		if !data[i].HasCountry(country) {
 			log.Printf("prepare data is not valid: %v\n", data[i])
 			data = append(data[:i-1], data[i+1:]...)
 			i--
-		}
-		if i == -1 {
-			i = 0
 		}
 	}
 	return data

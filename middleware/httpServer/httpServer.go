@@ -2,37 +2,48 @@ package httpServer
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
-	"github.com/gorilla/mux"
 	"github.com/toffguy77/statusPage/internal/models"
 	"github.com/toffguy77/statusPage/middleware/common"
+	cache "github.com/victorspringer/http-cache"
+	"github.com/victorspringer/http-cache/adapter/memory"
 	"log"
 	"net"
 	"net/http"
 	"time"
 )
 
-func NewServer(location string) (*http.Server, error) {
-	if !correctLoc(location) {
-		return nil, errors.New("server location is not valid IP[:PORT]")
+func Run(location string) {
+	if !isCorrectLoc(location) {
+		log.Fatalf("server location is not correct: %s\n", location)
+	}
+	memcached, err := memory.NewAdapter(
+		memory.AdapterWithAlgorithm(memory.LRU),
+		memory.AdapterWithCapacity(10000000),
+	)
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	r := mux.NewRouter()
-	r.HandleFunc("/", handleConnection)
-	http.Handle("/", r)
-
-	srv := &http.Server{
-		Handler:      r,
-		Addr:         location,
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
+	cacheClient, err := cache.NewClient(
+		cache.ClientWithAdapter(memcached),
+		cache.ClientWithTTL(1*time.Minute),
+		cache.ClientWithRefreshKey("opn"),
+	)
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	return srv, nil
+	handler := http.HandlerFunc(handleConnection)
+
+	http.Handle("/", cacheClient.Middleware(handler))
+	err = http.ListenAndServe(":8888", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
-func correctLoc(location string) bool {
+func isCorrectLoc(location string) bool {
 	host, port, err := net.SplitHostPort(location)
 	if err != nil {
 		return false

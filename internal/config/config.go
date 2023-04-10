@@ -14,13 +14,13 @@ type sourceDataType struct {
 var (
 	SourceData = sourceDataType{
 		CountriesDataFile: "internal/countries/countries.csv",
-		BillingDataFile:   "billing.data",
-		EmailDataFile:     "email.data",
+		BillingDataFile:   "sourcedata/billing.data",
+		EmailDataFile:     "sourcedata/email.data",
 		IncidentURL:       "http://127.0.0.1:8383/accendent",
 		MMSURL:            "http://127.0.0.1:8383/mms",
-		SMSDataFile:       "sms.data",
+		SMSDataFile:       "sourcedata/sms.data",
 		SupportURL:        "http://127.0.0.1:8383/support",
-		VoiceCallDataFile: "voice.data",
+		VoiceCallDataFile: "sourcedata/voice.data",
 	}
 )
 

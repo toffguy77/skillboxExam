@@ -3,7 +3,7 @@ DEST_DIR = ./bin
 NAME_SERVER = statusPage
 
 .PHONY: all
-all: clean test vendor build
+all: clean test vendor build run
 
 .PHONY: clean
 clean:

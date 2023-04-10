@@ -39,3 +39,5 @@ var (
 		SPECIALISTS:      7,
 	}
 )
+
+var ServerURL string = "127.0.0.1:8888"

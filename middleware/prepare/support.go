@@ -1,16 +1,10 @@
 package prepare
 
 import (
+	"github.com/toffguy77/statusPage/internal/config"
 	"github.com/toffguy77/statusPage/internal/models"
 	"github.com/toffguy77/statusPage/internal/providers/support"
 	"log"
-)
-
-var (
-	THRESHOLD_LOW    = 9
-	THRESHOLD_MEDIUM = 16
-	CAPACITY         = 18
-	SPECIALISTS      = 7
 )
 
 func GetSupportData(c chan []int) {
@@ -31,15 +25,15 @@ func GetSupportData(c chan []int) {
 }
 
 func calcQueueTime(tickets int) int {
-	speed := 60 / CAPACITY
+	speed := 60 / config.SupportVars.CAPACITY
 	return speed * tickets
 }
 
 func calcLoad(tickets int) int {
-	if tickets < THRESHOLD_LOW {
+	if tickets < config.SupportVars.THRESHOLD_LOW {
 		return 1
 	}
-	if tickets < THRESHOLD_MEDIUM {
+	if tickets < config.SupportVars.THRESHOLD_MEDIUM {
 		return 2
 	}
 	return 3

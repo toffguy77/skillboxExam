@@ -3,22 +3,19 @@ package sms
 import (
 	"bufio"
 	"github.com/toffguy77/statusPage/internal/common"
+	"github.com/toffguy77/statusPage/internal/config"
 	"github.com/toffguy77/statusPage/internal/models"
 	"log"
 	"os"
 	"strings"
 )
 
-const SMSDataFile = "sms.data"
-
-//FIXME: fix SMS source
-
 type SMSProvider struct {
 	Name string
 }
 
 func (p SMSProvider) GetStatus(countries map[string]models.Country) ([]models.SMSData, error) {
-	data, err := parseSmsData(SMSDataFile)
+	data, err := parseSmsData(config.SourceData.SMSDataFile)
 	if err != nil {
 		log.Printf("can't parse prepare data: %v\n", err)
 		return nil, err

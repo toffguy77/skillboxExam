@@ -2,16 +2,15 @@ package countries
 
 import (
 	"bufio"
+	"github.com/toffguy77/statusPage/internal/config"
 	"github.com/toffguy77/statusPage/internal/models"
 	"log"
 	"os"
 	"strings"
 )
 
-const dataFile = "internal/countries/countries.csv"
-
 func GetCountries() map[string]models.Country {
-	countries, err := createCountryMap(dataFile)
+	countries, err := createCountryMap(config.SourceData.CountriesDataFile)
 	if err != nil {
 		log.Fatal("can't load country list file\n")
 	}

@@ -2,6 +2,7 @@ package support
 
 import (
 	"encoding/json"
+	"github.com/toffguy77/statusPage/internal/config"
 	"github.com/toffguy77/statusPage/internal/models"
 	"io"
 	"log"
@@ -13,7 +14,7 @@ type SupportProvider struct {
 }
 
 func (p SupportProvider) GetStatus() ([]models.SupportData, error) {
-	data, err := getSupportData("http://127.0.0.1:8383/support")
+	data, err := getSupportData(config.SourceData.SupportURL)
 	if err != nil {
 		log.Printf("can't parse mms data from httpServer: %v\n", err)
 		return nil, err

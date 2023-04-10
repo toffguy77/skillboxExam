@@ -3,6 +3,7 @@ package mms
 import (
 	"encoding/json"
 	"github.com/toffguy77/statusPage/internal/common"
+	"github.com/toffguy77/statusPage/internal/config"
 	"github.com/toffguy77/statusPage/internal/models"
 	"io"
 	"log"
@@ -14,7 +15,7 @@ type MMSProvider struct {
 }
 
 func (p MMSProvider) GetStatus(countries map[string]models.Country) ([]models.MMSData, error) {
-	data, err := getMmsData("http://127.0.0.1:8383/mms")
+	data, err := getMmsData(config.SourceData.MMSURL)
 	if err != nil {
 		log.Printf("can't parse mms data from httpServer: %v\n", err)
 		return nil, err

@@ -3,6 +3,7 @@ package email
 import (
 	"bufio"
 	"github.com/toffguy77/statusPage/internal/common"
+	"github.com/toffguy77/statusPage/internal/config"
 	"github.com/toffguy77/statusPage/internal/models"
 	"log"
 	"os"
@@ -10,16 +11,12 @@ import (
 	"strings"
 )
 
-const EmailDataFile = "email.data"
-
-//FIXME: fix Email source
-
 type EmailProvider struct {
 	Name string
 }
 
 func (p EmailProvider) GetStatus(countries map[string]models.Country) ([]models.EmailData, error) {
-	data, err := parseEmailData(EmailDataFile)
+	data, err := parseEmailData(config.SourceData.EmailDataFile)
 	if err != nil {
 		log.Printf("can't parse email data: %v\n", err)
 		return nil, err

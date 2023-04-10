@@ -3,6 +3,7 @@ package voicecall
 import (
 	"bufio"
 	"github.com/toffguy77/statusPage/internal/common"
+	"github.com/toffguy77/statusPage/internal/config"
 	"github.com/toffguy77/statusPage/internal/models"
 	"log"
 	"os"
@@ -10,16 +11,12 @@ import (
 	"strings"
 )
 
-const VoiceCallDataFile = "voice.data"
-
-//FIXME: fix VoiceCall source
-
 type VoiceProvider struct {
 	Name string
 }
 
 func (p VoiceProvider) GetStatus(countries map[string]models.Country) ([]models.VoiceCallData, error) {
-	data, err := parseVoiceCallData(VoiceCallDataFile)
+	data, err := parseVoiceCallData(config.SourceData.VoiceCallDataFile)
 	if err != nil {
 		log.Printf("can't parse voice data: %v\n", err)
 		return nil, err

@@ -3,22 +3,19 @@ package billing
 import (
 	"bufio"
 	"errors"
+	"github.com/toffguy77/statusPage/internal/config"
 	"github.com/toffguy77/statusPage/internal/models"
 	"log"
 	"math"
 	"os"
 )
 
-const BillingDataFile = "billing.data"
-
-//FIXME: fix Billing source
-
 type BillingProvider struct {
 	Name string
 }
 
 func (p BillingProvider) GetStatus() (models.BillingData, error) {
-	data, err := parseBillingData(BillingDataFile)
+	data, err := parseBillingData(config.SourceData.BillingDataFile)
 	if err != nil {
 		log.Printf("can't parse billing data: %v\n", err)
 		return models.BillingData{}, err

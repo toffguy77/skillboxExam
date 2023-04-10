@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/toffguy77/statusPage/internal/config"
 	"github.com/toffguy77/statusPage/internal/models"
 	"io"
 	"log"
@@ -15,7 +16,7 @@ type IncidentProvider struct {
 }
 
 func (p IncidentProvider) GetStatus() ([]models.IncidentData, error) {
-	data, err := getIncidentList("http://127.0.0.1:8383/accendent")
+	data, err := getIncidentList(config.SourceData.IncidentURL)
 	if err != nil {
 		log.Printf("can't parse incident data from httpServer: %v\n", err)
 		return nil, err

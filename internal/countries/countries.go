@@ -54,7 +54,7 @@ func parseString(line string) models.Country {
 }
 
 func isEmptyCountry(country models.Country) bool {
-	if country == (models.Country{}) {
+	if country.Name == "" || country.Alpha2 == "" || country.Alpha3 == "" || country.ISO_3166_1 == "" || country.ISO_3166_2 == "" {
 		return true
 	}
 	return false

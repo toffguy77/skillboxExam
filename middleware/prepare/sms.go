@@ -39,7 +39,7 @@ func sortSmsByCountry(smsRes []models.SMSData) []models.SMSData {
 	for i := 0; i < len(smsRes)-1; i++ {
 		for j := i + 1; j < len(smsRes); j++ {
 			if smsRes[i].Country > smsRes[j].Country {
-				smsRes[i].Country, smsRes[j].Country = smsRes[j].Country, smsRes[i].Country
+				smsRes[i], smsRes[j] = smsRes[j], smsRes[i]
 			}
 
 		}
@@ -51,7 +51,7 @@ func sortSmsByProvider(smsRes []models.SMSData) []models.SMSData {
 	for i := 0; i < len(smsRes)-1; i++ {
 		for j := i + 1; j < len(smsRes); j++ {
 			if smsRes[i].Provider > smsRes[j].Provider {
-				smsRes[i].Provider, smsRes[j].Provider = smsRes[j].Provider, smsRes[i].Provider
+				smsRes[i], smsRes[j] = smsRes[j], smsRes[i]
 			}
 
 		}

@@ -2,6 +2,8 @@ package incidents
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"github.com/toffguy77/statusPage/internal/models"
 	"io"
 	"log"
@@ -48,8 +50,11 @@ func getIncidentList(urlIncidentServer string) ([]models.IncidentData, error) {
 
 	var result []models.IncidentData
 	for _, res := range data {
+		if res.Status != "active" && res.Status != "closed" {
+			return nil, errors.New(fmt.Sprintf("incident has incorrect status %s: %v\n", res.Status, res))
+		}
 		result = append(result, res)
 	}
 
-	return result, err
+	return result, nil
 }

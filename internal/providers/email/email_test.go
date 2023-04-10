@@ -6,39 +6,6 @@ import (
 	"testing"
 )
 
-func TestEmailProvider_GetStatus(t *testing.T) {
-	type fields struct {
-		Name string
-	}
-	type args struct {
-		countries map[string]models.Country
-	}
-	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    []models.EmailData
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			p := EmailProvider{
-				Name: tt.fields.Name,
-			}
-			got, err := p.GetStatus(tt.args.countries)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GetStatus() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("GetStatus() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func Test_isTrustedEmailProvider(t *testing.T) {
 	type args struct {
 		provider string
@@ -48,38 +15,26 @@ func Test_isTrustedEmailProvider(t *testing.T) {
 		args args
 		want bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "default",
+			args: args{provider: "gmail"},
+			want: true,
+		},
+		{
+			name: "upper case",
+			args: args{provider: "MAIL.RU"},
+			want: true,
+		},
+		{
+			name: "untrusted",
+			args: args{provider: "rambler"},
+			want: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := isTrustedEmailProvider(tt.args.provider); got != tt.want {
 				t.Errorf("isTrustedEmailProvider() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func Test_parseEmailData(t *testing.T) {
-	type args struct {
-		file string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    []models.EmailData
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := parseEmailData(tt.args.file)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("parseEmailData() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("parseEmailData() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -94,7 +49,40 @@ func Test_parseString(t *testing.T) {
 		args args
 		want models.EmailData
 	}{
-		// TODO: Add test cases.
+		{
+			name: "default",
+			args: args{line: "RU;Yandex;210"},
+			want: models.EmailData{
+				Country:      "RU",
+				Provider:     "Yandex",
+				DeliveryTime: 210,
+			},
+		},
+		{
+			name: "empty field",
+			args: args{line: "RU;;210"},
+			want: models.EmailData{},
+		},
+		{
+			name: "missed field",
+			args: args{line: "RU;Yandex"},
+			want: models.EmailData{},
+		},
+		{
+			name: "mode fields",
+			args: args{line: "RU;Yandex;210;Alive"},
+			want: models.EmailData{},
+		},
+		{
+			name: "untrusted provider",
+			args: args{line: "RU;Rambler;210"},
+			want: models.EmailData{},
+		},
+		{
+			name: "delivery is not an int",
+			args: args{line: "RU;Yandex;210.1"},
+			want: models.EmailData{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

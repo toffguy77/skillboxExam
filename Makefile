@@ -1,9 +1,6 @@
 SRC_DIR = ./cmd
 NAME_SERVER = statusPage
 
-
-
-
 .PHONY: all
 all: clean test vendor build
 

@@ -46,10 +46,11 @@ func Run(location string) {
 func isCorrectLoc(location string) bool {
 	host, port, err := net.SplitHostPort(location)
 	if err != nil {
+		log.Printf("can't start http server on %s location: %v\n", location, err)
 		return false
 	}
 
-	if location == host || location == fmt.Sprintf("%s:%s", host, port) {
+	if location == host || (location == fmt.Sprintf("%s:%s", host, port)) || (location == fmt.Sprintf("[%s]:%s", host, port)) {
 		return true
 	}
 	return false

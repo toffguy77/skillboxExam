@@ -2,6 +2,7 @@ package voicecall
 
 import (
 	"bufio"
+	"github.com/toffguy77/statusPage/internal/common"
 	"github.com/toffguy77/statusPage/internal/models"
 	"log"
 	"os"
@@ -23,20 +24,8 @@ func (p VoiceProvider) GetStatus(countries map[string]models.Country) ([]models.
 		log.Printf("can't parse voice data: %v\n", err)
 		return nil, err
 	}
-	result := validate(data, countries)
+	result := common.Validate(data, countries)
 	return result, nil
-}
-
-func validate(data []models.VoiceCallData, country map[string]models.Country) []models.VoiceCallData {
-	for iter, res := range data {
-		_, ok := country[res.Country]
-		if !ok {
-			log.Printf("voice data is not valid: %v\n", res)
-			data[iter] = data[len(data)-1]
-			data = data[:len(data)-1]
-		}
-	}
-	return data
 }
 
 func parseVoiceCallData(file string) ([]models.VoiceCallData, error) {

@@ -41,6 +41,11 @@ func sortByDeliveryDesc(data []models.EmailData) []models.EmailData {
 			}
 		}
 	}
+	if len(data) == 2 {
+		res := make([]models.EmailData, 2)
+		copy(res, data[0:2])
+		return res
+	}
 	res := make([]models.EmailData, 3)
 	copy(res, data[0:3])
 	return res
@@ -56,6 +61,11 @@ func sortByDeliveryAsc(data []models.EmailData) []models.EmailData {
 				data[i], data[j] = data[j], data[i]
 			}
 		}
+	}
+	if len(data) == 2 {
+		res := make([]models.EmailData, 2)
+		copy(res, data[0:2])
+		return res
 	}
 	res := make([]models.EmailData, 3)
 	copy(res, data[0:3])

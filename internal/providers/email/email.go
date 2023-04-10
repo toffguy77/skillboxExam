@@ -78,6 +78,6 @@ func isTrustedEmailProvider(provider string) bool {
 		"aol", "live", "rediffmail", "gmx", "protonmail", "yandex", "mail.ru":
 		return true
 	}
-	log.Printf("email provider is not trusted: %s\n", provider)
+	log.Printf("email provider is not trusted: %s", provider)
 	return false
 }

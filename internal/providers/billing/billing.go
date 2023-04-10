@@ -34,7 +34,7 @@ func validate(data string) error {
 	}
 	for _, bitInMask := range data {
 		if bitInMask != 48 && bitInMask != 49 {
-			errIncorrectMask := errors.New("mask does not contain bits")
+			errIncorrectMask := errors.New("mask contain other values than bits")
 			log.Printf("incorrect file content: %v\n", errIncorrectMask)
 			return errIncorrectMask
 		}
@@ -58,7 +58,7 @@ func parseBillingData(file string) (models.BillingData, error) {
 	for scanner.Scan() {
 		lineCounter++
 		if lineCounter > 1 {
-			errMoreLines := errors.New("lines than expected")
+			errMoreLines := errors.New("more lines than expected")
 			log.Printf("incorrect file content: %v\n", errMoreLines)
 			return models.BillingData{}, errMoreLines
 		}
@@ -95,9 +95,9 @@ func parseMask(mask string) models.BillingData {
 func calcNumFromMask(mask string) int {
 	maskBytes := []byte(mask)
 	var sum int
-	for i := 5; i >= 0; i-- {
+	for i := len(mask) - 1; i >= 0; i-- {
 		if maskBytes[i] == 49 {
-			sum += int(math.Pow(float64(2), float64(5-i)))
+			sum += int(math.Pow(float64(2), float64(len(mask)-1-i)))
 		}
 	}
 	return sum

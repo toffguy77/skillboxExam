@@ -114,3 +114,16 @@ func (m EmailData) HasCountry(country map[string]Country) bool {
 	}
 	return false
 }
+
+func (m VoiceCallData) HasCountry(country map[string]Country) bool {
+	value := reflect.ValueOf(m)
+	hasCountryFiled := value.FieldByName("Country")
+	if !hasCountryFiled.IsValid() {
+		return false
+	}
+	_, ok := country[m.Country]
+	if ok {
+		return true
+	}
+	return false
+}

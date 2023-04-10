@@ -7,7 +7,7 @@ import (
 )
 
 type ValidateData interface {
-	models.SMSData | models.MMSData | models.EmailData
+	models.SMSData | models.MMSData | models.EmailData | models.VoiceCallData
 	HasCountry(map[string]models.Country) bool
 }
 

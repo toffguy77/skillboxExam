@@ -38,9 +38,8 @@ func sortByCountry(mmsRes []models.MMSData) []models.MMSData {
 	for i := 0; i < len(mmsRes)-1; i++ {
 		for j := i + 1; j < len(mmsRes); j++ {
 			if mmsRes[i].Country > mmsRes[j].Country {
-				mmsRes[i].Country, mmsRes[j].Country = mmsRes[j].Country, mmsRes[i].Country
+				mmsRes[i], mmsRes[j] = mmsRes[j], mmsRes[i]
 			}
-
 		}
 	}
 	return mmsRes
@@ -50,7 +49,7 @@ func sortByProvider(mmsRes []models.MMSData) []models.MMSData {
 	for i := 0; i < len(mmsRes)-1; i++ {
 		for j := i + 1; j < len(mmsRes); j++ {
 			if mmsRes[i].Provider > mmsRes[j].Provider {
-				mmsRes[i].Provider, mmsRes[j].Provider = mmsRes[j].Provider, mmsRes[i].Provider
+				mmsRes[i], mmsRes[j] = mmsRes[j], mmsRes[i]
 			}
 
 		}

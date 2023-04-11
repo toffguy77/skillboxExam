@@ -17,4 +17,6 @@
 ./README.md:11:1. Для визуальной проверки результата в проекте симулятора есть файл status_page.html
 ./README.md:12:2. Откройте **status_page.html** в браузере при запущенном симуляторе
 ./README.md:14:4. По-умолчанию страница **status_page.html** считывает данные с адреса **http://127.0.0.1:8383/test**
+❯ curl http://127.0.0.1:8383/status_page.html
+404 page not found
 ```

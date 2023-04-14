@@ -3,7 +3,6 @@ package httpServer
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/toffguy77/statusPage/internal/config"
 	"github.com/toffguy77/statusPage/internal/models"
 	"github.com/toffguy77/statusPage/middleware/common"
 	cache "github.com/victorspringer/http-cache"
@@ -38,7 +37,7 @@ func Run(location string) {
 	handler := http.HandlerFunc(handleConnection)
 
 	http.Handle("/", cacheClient.Middleware(handler))
-	log.Printf("starting server on http://%s\n", config.ServerURL)
+	log.Printf("starting server on http://%s\n", location)
 	err = http.ListenAndServe(":8888", nil)
 	if err != nil {
 		log.Fatal(err)

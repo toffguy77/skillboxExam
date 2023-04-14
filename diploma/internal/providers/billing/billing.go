@@ -14,8 +14,13 @@ type BillingProvider struct {
 	Name string
 }
 
+const (
+	bitZero int32 = 48
+	bitOne  int32 = 49
+)
+
 func (p BillingProvider) GetStatus() (models.BillingData, error) {
-	data, err := parseBillingData(config.SourceData.BillingDataFile)
+	data, err := parseBillingData(config.Conf.SourceData.BillingDataFile)
 	if err != nil {
 		log.Printf("can't parse billing data: %v\n", err)
 		return models.BillingData{}, err
@@ -30,7 +35,7 @@ func validate(data string) error {
 		return errIncorrectMask
 	}
 	for _, bitInMask := range data {
-		if bitInMask != 48 && bitInMask != 49 {
+		if bitInMask != bitZero && bitInMask != bitOne {
 			errIncorrectMask := errors.New("mask contain other values than bits")
 			log.Printf("incorrect file content: %v\n", errIncorrectMask)
 			return errIncorrectMask

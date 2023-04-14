@@ -1,0 +1,19 @@
+{
+  "source_data": {
+    "countries_data_file": "internal/countries/countries.csv",
+    "billing_data_file": "../skillbox-diploma/billing.data",
+    "email_data_file": "../skillbox-diploma/email.data",
+    "incident_url": "http://127.0.0.1:8383/accendent",
+    "mmsurl": "http://127.0.0.1:8383/mms",
+    "sms_data_file": "../skillbox-diploma/sms.data",
+    "support_url": "http://127.0.0.1:8383/support",
+    "voice_call_data_file": "../skillbox-diploma/voice.data"
+  },
+  "support_vars": {
+    "threshold___low":    9,
+    "threshold___medium": 16,
+    "capacity":         18,
+    "specialists":      7
+  },
+  "server_url": "127.0.0.1:8888"
+}

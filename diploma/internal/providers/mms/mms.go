@@ -15,7 +15,7 @@ type MMSProvider struct {
 }
 
 func (p MMSProvider) GetStatus(countries map[string]models.Country) ([]models.MMSData, error) {
-	data, err := getMmsData(config.SourceData.MMSURL)
+	data, err := getMmsData(config.Conf.SourceData.MMSURL)
 	if err != nil {
 		log.Printf("can't parse mms data from httpServer: %v\n", err)
 		return nil, err

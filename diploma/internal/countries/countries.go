@@ -10,7 +10,7 @@ import (
 )
 
 func GetCountries() map[string]models.Country {
-	countries, err := createCountryMap(config.SourceData.CountriesDataFile)
+	countries, err := createCountryMap(config.Conf.SourceData.CountriesDataFile)
 	if err != nil {
 		log.Fatal("can't load country list file\n")
 	}

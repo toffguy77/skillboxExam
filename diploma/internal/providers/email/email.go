@@ -16,7 +16,7 @@ type EmailProvider struct {
 }
 
 func (p EmailProvider) GetStatus(countries map[string]models.Country) ([]models.EmailData, error) {
-	data, err := parseEmailData(config.SourceData.EmailDataFile)
+	data, err := parseEmailData(config.Conf.SourceData.EmailDataFile)
 	if err != nil {
 		log.Printf("can't parse email data: %v\n", err)
 		return nil, err

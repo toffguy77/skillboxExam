@@ -25,15 +25,15 @@ func GetSupportData(c chan []int) {
 }
 
 func calcQueueTime(tickets int) int {
-	speed := 60 / config.SupportVars.CAPACITY
+	speed := 60 / config.Conf.SupportVars.CAPACITY
 	return speed * tickets
 }
 
 func calcLoad(tickets int) int {
-	if tickets < config.SupportVars.THRESHOLD_LOW {
+	if tickets < config.Conf.SupportVars.THRESHOLD_LOW {
 		return 1
 	}
-	if tickets < config.SupportVars.THRESHOLD_MEDIUM {
+	if tickets < config.Conf.SupportVars.THRESHOLD_MEDIUM {
 		return 2
 	}
 	return 3

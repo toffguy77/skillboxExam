@@ -15,8 +15,8 @@ type BillingProvider struct {
 }
 
 const (
-	bitZero int32 = 48
-	bitOne  int32 = 49
+	ZEROBIT int32 = 48
+	ONEBIT  int32 = 49
 )
 
 func (p BillingProvider) GetStatus() (models.BillingData, error) {
@@ -35,7 +35,7 @@ func validate(data string) error {
 		return errIncorrectMask
 	}
 	for _, bitInMask := range data {
-		if bitInMask != bitZero && bitInMask != bitOne {
+		if bitInMask != ZEROBIT && bitInMask != ONEBIT {
 			errIncorrectMask := errors.New("mask contain other values than bits")
 			log.Printf("incorrect file content: %v\n", errIncorrectMask)
 			return errIncorrectMask

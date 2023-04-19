@@ -16,7 +16,7 @@ type IncidentProvider struct {
 }
 
 func (p IncidentProvider) GetStatus() ([]models.IncidentData, error) {
-	data, err := getIncidentList(config.SourceData.IncidentURL)
+	data, err := getIncidentList(config.Conf.SourceData.IncidentURL)
 	if err != nil {
 		log.Printf("can't parse incident data from httpServer: %v\n", err)
 		return nil, err

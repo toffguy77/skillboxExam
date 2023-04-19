@@ -1,12 +1,14 @@
 package prepare
 
 import (
+	"github.com/toffguy77/statusPage/internal/config"
 	"github.com/toffguy77/statusPage/internal/models"
 	"reflect"
 	"testing"
 )
 
 func Test_calcLoad(t *testing.T) {
+	config.LoadConfig("../../internal/config/config.json")
 	type args struct {
 		tickets int
 	}

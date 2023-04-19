@@ -14,7 +14,7 @@ type SupportProvider struct {
 }
 
 func (p SupportProvider) GetStatus() ([]models.SupportData, error) {
-	data, err := getSupportData(config.SourceData.SupportURL)
+	data, err := getSupportData(config.Conf.SourceData.SupportURL)
 	if err != nil {
 		log.Printf("can't parse mms data from httpServer: %v\n", err)
 		return nil, err

@@ -16,7 +16,7 @@ type VoiceProvider struct {
 }
 
 func (p VoiceProvider) GetStatus(countries map[string]models.Country) ([]models.VoiceCallData, error) {
-	data, err := parseVoiceCallData(config.SourceData.VoiceCallDataFile)
+	data, err := parseVoiceCallData(config.Conf.SourceData.VoiceCallDataFile)
 	if err != nil {
 		log.Printf("can't parse voice data: %v\n", err)
 		return nil, err

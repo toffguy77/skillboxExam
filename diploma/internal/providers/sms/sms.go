@@ -15,7 +15,7 @@ type SMSProvider struct {
 }
 
 func (p SMSProvider) GetStatus(countries map[string]models.Country) ([]models.SMSData, error) {
-	data, err := parseSmsData(config.SourceData.SMSDataFile)
+	data, err := parseSmsData(config.Conf.SourceData.SMSDataFile)
 	if err != nil {
 		log.Printf("can't parse prepare data: %v\n", err)
 		return nil, err
